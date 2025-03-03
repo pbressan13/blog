@@ -1,20 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+PreRequisites
 
 * Ruby version:  3.4.2 
-- Rails 8.0.1
-- PostgreSQL
-- `curl` (for testing POST requests)
-- `git` (for cloning the repository)
+  - Rails 8.0.1
+  - PostgreSQL
+  - `curl` (for testing POST requests)
+  - `git` (for cloning the repository)
   
 * Clone repository 
 
-   ```bash
-   git clone https://github.com/your-username/ratings-app.git
+   ```gh repo clone pbressan13/blog
    cd ratings-app
    ```
 
