@@ -16,9 +16,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_143642) do
 
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "title"
-    t.text "body"
-    t.string "ip"
+    t.string "title", null: false
+    t.text "body", null: false
+    t.string "ip", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -27,15 +27,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_143642) do
   create_table "ratings", force: :cascade do |t|
     t.bigint "post_id", null: false
     t.bigint "user_id", null: false
-    t.integer "value"
+    t.integer "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["post_id", "user_id"], name: "index_ratings_on_post_id_and_user_id", unique: true
     t.index ["post_id"], name: "index_ratings_on_post_id"
     t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "login"
+    t.string "login", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["login"], name: "index_users_on_login", unique: true
