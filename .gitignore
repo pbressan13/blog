@@ -1,4 +1,6 @@
 /.bundle
-/tmp
+/tmp/
 /log
 /storage
+tmp/*
+tmp/cache/*

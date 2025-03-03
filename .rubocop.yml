@@ -1,0 +1,19 @@
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+AllCops:
+  NewCops: disable
+  TargetRubyVersion: 3.4.2  
+  Exclude:
+    - ./db/**/*
+    - ./test/models/**/*
+    - ./test/functional/**/*
+    - ./test/unit/**/*
+    - ./bin/*
+  DefaultFormatter: progress
+
+Rails/ApplicationRecord:
+  Enabled: true
+
+
+
