@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Rating, type: :model do
@@ -7,7 +9,7 @@ RSpec.describe Rating, type: :model do
   it { should validate_presence_of(:value) }
   it { should validate_inclusion_of(:value).in_range(1..5) }
 
-  describe "validate post only can be rated 1 time" do
+  describe 'validate post only can be rated 1 time' do
     let(:user) { User.create!(login: 'user1') }
     let(:post) { user.posts.create!(title: 'Title', body: 'Body', ip: '127.0.0.1') }
 

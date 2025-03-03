@@ -1,25 +1,27 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
   describe 'POST #create' do
-    let(:user_params) { {login: 'user1'} }
-    let(:post_params) { {title: 'Test Title', body: 'Test Body', ip: '127.0.0.1'} }
+    let(:user_params) { { login: 'user1' } }
+    let(:post_params) { { title: 'Test Title', body: 'Test Body', ip: '127.0.0.1' } }
 
     it 'creates a post and a user if the user does not exist' do
-      expect {
-        post :create, params: {user: user_params, post: post_params}
-      }.to change(Post, :count).by(1)
+      expect do
+        post :create, params: { user: user_params, post: post_params }
+      end.to change(Post, :count).by(1)
         .and change(User, :count).by(1)
     end
 
     it 'returns status 201 and the post data' do
-      post :create, params: {user: user_params, post: post_params}
+      post :create, params: { user: user_params, post: post_params }
       expect(response).to have_http_status(:created)
       expect(response.body).to include('Test Title')
     end
 
     it 'returns validation errors when the post is invalid' do
-      post :create, params: {user: user_params, post: {title: '', body: '', ip: ''}}
+      post :create, params: { user: user_params, post: { title: '', body: '', ip: '' } }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include("can't be blank")
     end
@@ -36,7 +38,7 @@ RSpec.describe PostsController, type: :controller do
     end
 
     it 'returns posts sorted by average rating' do
-      get :top, params: {max: 10}
+      get :top, params: { max: 10 }
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Post 1')
       expect(response.body).to include('Post 2')

@@ -1,8 +1,6 @@
-inherit_gem:
-  rubocop-rails-omakase: rubocop.yml
-
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   TargetRubyVersion: 3.4.2  
   Exclude:
     - ./db/**/*
@@ -10,99 +8,120 @@ AllCops:
     - spec/rails_helper.rb
     - spec/spec_helper.rb
     - config/**/*
+    - test/**/*
+    - config.ru
+    - app/mailers/*
+    - app/jobs/*
   DefaultFormatter: progress
 
-Layout/IndentationWidth:
-  Enabled: true
-  Width: 2  # or any preferred width
-
-Layout/MultilineMethodCallIndentation:
-  Enabled: true
-  EnforcedStyle: indented
-  # Indentation for method calls should be aligned to the first argument.
-
-Style/MethodDefParentheses:
-  Enabled: true
-  EnforcedStyle: require_no_parentheses
-  # Prefer omitting parentheses for methods without arguments.
-
-# Enable checks for unnecessary spaces
-Layout/EmptyLineAfterGuardClause:
-  Enabled: true
-  # Ensures that there's an empty line after guard clauses.
-  
-# Allow empty lines to separate sections of methods
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: true
-  # Ensure a consistent blank line around block bodies.
-
-# Enforce consistent indentation for multiline blocks
-Layout/SpaceAroundOperators:
-  Enabled: true
-  # Ensure consistent spaces around operators.
-
-# Enforce consistent spacing after commas
-Layout/SpaceAfterComma:
-  Enabled: true
-  # Commas in method calls, hashes, etc., should be followed by a single space.
-
-# Enforce consistent spacing in array, hash, and method arguments
-Layout/SpaceInsideArrayLiteralBrackets:
-  Enabled: true
-  EnforcedStyle: no_space
-  # No space inside array brackets.
-
-Layout/SpaceInsideHashLiteralBraces:
-  Enabled: true
-  EnforcedStyle: no_space
-  # No space inside hash literal braces.
-
-# Enable consistent naming conventions
-Naming/MethodName:
-  Enabled: true
-  EnforcedStyle: snake_case
-
-# Check for unnecessary returns
-Style/RedundantReturn:
-  Enabled: true
-  # Detect redundant `return` in methods.
-
-# Ensure all class and module names are CamelCase
-Naming/ClassAndModuleCamelCase:
-  Enabled: true
-  # Class and module names should be in CamelCase.
-
-# Avoid long lines of code
 Layout/LineLength:
-  Enabled: true
-  Max: 120
-  # Max line length should be 120 characters to ensure readability.
+  Exclude: &tests_and_migrations
+    - "db/migrate/*"
+    - "**/spec/*"
+    - "**/spec/**/*"
+    - "**/*_spec.rb"
 
-# Require consistent use of snake_case for variable names
-Naming/VariableName:
-  Enabled: true
-  EnforcedStyle: snake_case
-  # Variables and method arguments should be in snake_case.
+Lint/ConstantDefinitionInBlock:
+  Exclude: &tests
+    - "**/spec/*"
+    - "**/spec/**/*"
+    - "**/*_spec.rb"
 
-# Enforce consistent whitespace around parentheses in method calls
-Layout/SpaceInsideParens:
-  Enabled: true
-  EnforcedStyle: no_space
-  # No spaces inside parentheses.
+Lint/EmptyClass:
+  Exclude: *tests
 
-# Enforce consistency in `if`/`else` expressions
-Style/IfUnlessModifier:
-  Enabled: true
-  # Avoid using `if` and `unless` modifiers for clarity.
+Lint/MissingSuper:
+  Exclude: *tests
 
-# Additional custom rules
-Metrics/MethodLength:
-  Max: 20 # Max 20 lines per method
-  # Keep methods small and readable.
+Naming/BlockForwarding:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/GuardClause:
+  Severity: info
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/RedundantInitialize:
+  Exclude: *tests
+
+# Metrics configuration based on `rubocop-shopify`. See
+# https://github.com/Shopify/ruby-style-guide/blob/main/rubocop.yml for more
+# information.
+Metrics/AbcSize:
+  Enabled: false
 
 Metrics/BlockLength:
-  Max: 25 # Max 25 lines per block
-  # Keep blocks small and concise.
+  Enabled: false
 
-Rails/ApplicationRecord:
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CollectionLiteralLength:
   Enabled: true
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# Layout configuration based on `rubocop-shopify`. See
+# https://github.com/Shopify/ruby-style-guide/blob/main/rubocop.yml for more
+# information.
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+
+Layout/FirstArgumentIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+  AllowMultilineFinalElement: true
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+  AllowMultilineFinalElement: true
+
+Layout/HashAlignment:
+  EnforcedLastArgumentHashStyle: ignore_implicit
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
