@@ -1,5 +1,7 @@
 require "faker"
 require "faraday"
+require "parallel"
+
 
 # Initialize Faraday connection
 connection = Faraday.new(url: 'http://localhost:3000')
@@ -10,11 +12,11 @@ ips = 50.times.map { Faker::Internet.ip_v4_address }
 # Generate names for users 
 users = 100.times.map { Faker::Internet.unique.username }
 
-# How many counts are going to be
-posts_count = 200
+# How many posts are going to be
+posts_count = 200_000
 
 # Create posts, each with a random user and IP address
-posts_count.times do
+Parallel.each(1..posts_count, in_threads: 3) do |i|
   ip = ips.sample
   user_login = users.sample
 
@@ -43,8 +45,7 @@ sample_posts = posts.sample(sample_posts_count)
 # Ensure users have a unique ID for each vote
 users_rated_posts = {}
 
-sample_posts.each do |post|
-  # Create a rating only if the user hasn't already rated this post
+Parallel.each(sample_posts, in_threads: 3) do |post|
   user = nil
   # Ensure the user hasn't rated the post yet
   loop do
