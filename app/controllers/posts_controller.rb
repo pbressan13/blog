@@ -11,6 +11,26 @@ class PostsController < ApplicationController
     render json: { errors: error.record.errors.full_messages }, status: :unprocessable_entity
   end
 
+  def top
+    top_posts = Post.left_joins(:ratings)
+    .group(:id)
+    .order(Arel.sql("AVG(ratings.value) DESC"))
+    .limit(params[:n].to_i)
+    .pluck(:id, :title, :body)
+
+    top_posts = top_posts.map do |id, title, body|
+      post = Post.find(id)
+      {
+        id: id,
+        title: title,
+        body: body,
+        average_rating: post.average_rating
+      }
+    end
+
+    render json: top_posts
+  end
+
   private
 
   def post_params
