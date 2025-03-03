@@ -30,6 +30,23 @@ class PostsController < ApplicationController
     render json: top_posts
   end
 
+  def repeated_ips
+    ips = Post.select(:ip, "array_agg(DISTINCT users.login) AS logins")
+              .joins(:user)
+              .group(:ip)
+              .having("COUNT(DISTINCT user_id) > 1")
+              .order(Arel.sql("count(DISTINCT users.login) DESC"))
+
+    repeated_ips = ips.map do |post|
+      {
+        ip: post.ip,
+        logins: post.logins
+      }
+      end
+
+    render json: repeated_ips
+  end
+
   private
 
   def post_params
