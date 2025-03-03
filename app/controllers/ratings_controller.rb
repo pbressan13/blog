@@ -2,10 +2,19 @@
 
 class RatingsController < ApplicationController
   def create
-    rating = Rating.create!(rating_params)
-    avg_rating = rating.post.average_rating
+    ActiveRecord::Base.transaction do
+      rating = Rating.find_or_initialize_by(rating_params)
+      if rating.new_record?
+        rating.save!
+      else
+        render json: { errors: ['Post can only be rated once per user'] }, status: :unprocessable_entity
+        raise ActiveRecord::Rollback
+      end
 
-    render json: { average_rating: avg_rating }, status: :created
+      avg_rating = rating.post.average_rating
+
+      render json: { average_rating: avg_rating }, status: :created
+    end
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
   end
