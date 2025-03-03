@@ -49,3 +49,10 @@ group :development, :test do
   gem "faraday"
   gem "faker"
 end
+
+group :test do
+  # For testing
+  gem "rspec-rails"
+  gem "shoulda-matchers", "~> 6.0"
+  gem "rubocop-rspec"
+end
