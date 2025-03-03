@@ -5,13 +5,30 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version:  3.4.2 
+- Rails 8.0.1
+- PostgreSQL
+- `curl` (for testing POST requests)
+- `git` (for cloning the repository)
+  
+* Clone repository 
 
-* System dependencies
+   ```bash
+   git clone https://github.com/your-username/ratings-app.git
+   cd ratings-app
+   ```
 
-* Configuration
-
+* Install dependencies
+    ```bundle install```
+    
 * Database creation
+    ```rails db:create```
+
+* Run migrations:
+    ```rails db:migrate```
+
+* Seed the database (optional):
+    ```rails db:seed```
 
 * Database initialization
 
