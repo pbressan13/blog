@@ -13,18 +13,17 @@ class PostsController < ApplicationController
 
   def top
     top_posts = Post.left_joins(:ratings)
-    .includes(:ratings)
+    .select("posts.id, posts.title, posts.body, AVG(ratings.value) AS average_rating")
     .group(:id)
-    .order(Arel.sql("AVG(ratings.value) DESC"))
+    .order(Arel.sql("AVG(ratings.value) DESC NULLS LAST"))
     .limit(params[:max].to_i)
-
 
     top_posts = top_posts.map do |post|
       {
         id: post.id,
         title: post.title,
         body: post.body,
-        average_rating: post.average_rating
+        average_rating: post.average_rating || 0
       }
     end
 
