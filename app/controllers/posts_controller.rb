@@ -23,7 +23,7 @@ class PostsController < ApplicationController
         id: post.id,
         title: post.title,
         body: post.body,
-        average_rating: post.average_rating || 0
+        average_rating: post.average_rating
       }
     end
 

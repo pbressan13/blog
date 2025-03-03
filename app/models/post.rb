@@ -5,6 +5,6 @@ class Post < ApplicationRecord
   validates :title, :body, :ip, presence: true
 
   def average_rating
-    ratings.average(:value).to_f.round(2)
+    ratings.average(:value).to_f.round(2).presence || 0
   end
 end
